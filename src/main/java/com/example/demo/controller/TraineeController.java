@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Trainee;
+import com.example.demo.exception.TraineeNotExistException;
 import com.example.demo.service.TraineeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,12 @@ public class TraineeController {
     @ResponseStatus(HttpStatus.CREATED)
     public Trainee createNewTrainee(@RequestBody @Valid Trainee trainee) {
         return traineeService.createNewTrainee(trainee);
+    }
+
+    @DeleteMapping("/trainees/{trainee_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTrainee(@PathVariable("trainee_id") Long trainee_id) throws TraineeNotExistException {
+        traineeService.deleteTrainee(trainee_id);
     }
 
 }

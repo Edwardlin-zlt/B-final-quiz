@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.Mockito.*;
 
 import com.example.demo.entity.Group;
 import com.example.demo.entity.Trainee;
+import com.example.demo.exception.TraineeNotExistException;
 import com.example.demo.service.TraineeService;
 import org.graalvm.compiler.nodes.java.ArrayLengthNode;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,9 +27,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TraineeController.class)
 @AutoConfigureJsonTesters
@@ -52,6 +54,11 @@ class TraineeControllerTest {
                 .Id(1L)
                 .name("testUser-grouped")
                 .build();
+    }
+
+    @AfterEach
+    public void clear() {
+        reset(traineeService);
     }
 
     @Nested
@@ -134,4 +141,37 @@ class TraineeControllerTest {
         }
     }
 
+    @Nested
+    class deleteTrainee {
+
+        @Nested
+        class WhenTraineeByIdExist {
+
+            @Test
+            public void should_delete_a_trainee() throws Exception {
+                doNothing().when(traineeService).deleteTrainee(1L);
+
+                mockMvc.perform(delete("/trainees/{trainee_id}", 1))
+                        .andExpect(status().isNoContent());
+
+                verify(traineeService, times(1)).deleteTrainee(1L);
+            }
+        }
+
+        @Nested
+        class WhenTraineeByIdNotExist {
+
+            @Test
+            public void should_response_404() throws Exception {
+                doThrow(new TraineeNotExistException("Trainee didn't Exist")).when(traineeService).deleteTrainee(1L);
+
+                mockMvc.perform(delete("/trainees/{trainee_id}", 1))
+                        .andExpect(status().isNotFound())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.message", containsString("Trainee didn't Exist")));
+
+                verify(traineeService, times(1)).deleteTrainee(1L);
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Trainee;
+import com.example.demo.exception.TraineeNotExistException;
 import com.example.demo.repository.TraineeRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,12 @@ public class TraineeService {
     public Trainee createNewTrainee(Trainee trainee) {
         return traineeRepository.save(trainee);
     }
+
+    public void deleteTrainee(Long trainee_id) throws TraineeNotExistException {
+        traineeRepository.findById(trainee_id)
+                .orElseThrow(() -> new TraineeNotExistException("Trainee didn't Exist"));
+
+        traineeRepository.deleteById(trainee_id);
+    }
+
 }
