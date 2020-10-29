@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Group;
 import com.example.demo.entity.Trainee;
 import com.example.demo.service.TraineeService;
+import org.graalvm.compiler.nodes.java.ArrayLengthNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,6 +64,24 @@ class TraineeControllerTest {
             public void should_return_ungrouped_trainees() throws Exception {
                 ArrayList<Trainee> trainees = new ArrayList<>();
                 trainees.add(testTraineeUngrouped);
+                String traineesAsJson = traineesJson.write(trainees).getJson();
+                when(traineeService.findUngroupedTrainees()).thenReturn(trainees);
+
+                MockHttpServletResponse response = mockMvc.perform(get("/trainees?grouped=false"))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse();
+
+                assertThat(response.getContentAsString()).isEqualTo(traineesAsJson);
+            }
+        }
+
+        @Nested
+        class WhenThereIsNoUngroupedTrainees {
+
+            @Test
+            public void should_return_empty_list () throws Exception {
+                ArrayList<Trainee> trainees = new ArrayList<>();
                 String traineesAsJson = traineesJson.write(trainees).getJson();
                 when(traineeService.findUngroupedTrainees()).thenReturn(trainees);
 
