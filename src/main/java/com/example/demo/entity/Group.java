@@ -19,4 +19,6 @@ public class Group {
     private Long id;
     @OneToMany
     private List<Trainee> trainee;
+    @OneToMany
+    private List<Trainer> trainer;
 }
