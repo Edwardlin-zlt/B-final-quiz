@@ -64,7 +64,24 @@ class TraineeServiceTest {
 
                 assertThat(ungroupedTrainees).isEqualTo(trainees);
             }
+        }
+    }
 
+    @Nested
+    class CreateNewTrainee {
+
+        @Test
+        public void should_return_saved_trainee() {
+            Trainee expectTrainee = Trainee.builder()
+                    .Id(1L)
+                    .name(testTraineeUngrouped.getName())
+                    .build();
+            when(traineeRepository.save(testTraineeUngrouped))
+                    .thenReturn(expectTrainee);
+
+            Trainee newTrainee = traineeService.createNewTrainee(testTraineeUngrouped);
+
+            assertThat(newTrainee).isEqualTo(expectTrainee);
         }
     }
 

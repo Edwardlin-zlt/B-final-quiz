@@ -125,6 +125,7 @@ class TraineeControllerTest {
                 MockHttpServletRequestBuilder requestBuilder = post("/trainees")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("invalid trainee data");
+
                 mockMvc.perform(requestBuilder)
                         .andExpect(status().isBadRequest());
 
