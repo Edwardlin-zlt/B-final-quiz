@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Trainee;
 import com.example.demo.service.TraineeService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -19,6 +20,18 @@ public class TraineeController {
     @GetMapping("/trainees")
     public String test() {
         return "Hello";
+    }
+
+    @GetMapping("/trainees")
+    public List<Trainee> getTrainees(@RequestParam(value = "grouped", required = false) Optional<Boolean> isGrouped) {
+        if (isGrouped.isPresent()) {
+            if (isGrouped.get()) {
+                return traineeService.findGroupedTrainees();
+            } else {
+                return traineeService.findUngroupedTrainees();
+            }
+        }
+        return traineeService.findAllTrainees();
     }
 
 }
