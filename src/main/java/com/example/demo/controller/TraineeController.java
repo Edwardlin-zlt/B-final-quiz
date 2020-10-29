@@ -18,11 +18,6 @@ public class TraineeController {
     }
 
     @GetMapping("/trainees")
-    public String test() {
-        return "Hello";
-    }
-
-    @GetMapping("/trainees")
     public List<Trainee> getTrainees(@RequestParam(value = "grouped", required = false) Optional<Boolean> isGrouped) {
         if (isGrouped.isPresent()) {
             if (isGrouped.get()) {
