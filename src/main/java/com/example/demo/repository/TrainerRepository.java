@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
     @Query("select t from Trainer t where t.group is null")
-    List<Trainee> findUngroupedTrainers();
+    List<Trainer> findUngroupedTrainers();
 
     @Query("select t from Trainer t where t.group is not null")
-    List<Trainee> findGroupedTrainers();
+    List<Trainer> findGroupedTrainers();
 }
