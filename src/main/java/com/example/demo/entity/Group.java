@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,7 +14,9 @@ import javax.persistence.OneToMany;
 @NoArgsConstructor
 @Builder
 public class Group {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    private Trainee trainee;
+    private List<Trainee> trainee;
 }
