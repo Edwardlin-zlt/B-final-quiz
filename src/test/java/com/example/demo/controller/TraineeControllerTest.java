@@ -48,7 +48,7 @@ class TraineeControllerTest {
     public void setup() {
         testTraineeUngrouped = Trainee.builder()
                 .Id(1L)
-                .name("testUser-grouped")
+                .name("testTrainee-ungrouped")
                 .build();
     }
 

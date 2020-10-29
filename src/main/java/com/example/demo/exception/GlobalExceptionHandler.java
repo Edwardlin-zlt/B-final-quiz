@@ -14,4 +14,11 @@ public class GlobalExceptionHandler {
         ErrorResult errorResult = new ErrorResult(message);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
     }
+
+    @ExceptionHandler(TrainerNotExistException.class)
+    public ResponseEntity<ErrorResult> handle(TrainerNotExistException trainerNotExistException) {
+        String message = trainerNotExistException.getMessage();
+        ErrorResult errorResult = new ErrorResult(message);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
+    }
 }
