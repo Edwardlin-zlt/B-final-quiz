@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Trainer;
-import com.example.demo.entity.Trainer;
 import com.example.demo.exception.TrainerNotExistException;
 import com.example.demo.service.TrainerService;
 import org.springframework.http.HttpStatus;
@@ -41,6 +40,6 @@ public class TrainerController {
     @DeleteMapping("/trainers/{trainer_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTrainer(@PathVariable("trainer_id") Long trainer_id) throws TrainerNotExistException {
-        trainerService.deleteTrainer(trainer_id);
+        trainerService.deleteTrainerById(trainer_id);
     }
 }

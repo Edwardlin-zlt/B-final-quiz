@@ -31,7 +31,7 @@ public class TrainerService {
         return trainerRepository.save(trainer);
     }
 
-    public void deleteTrainer(Long Trainer_id) throws TrainerNotExistException {
+    public void deleteTrainerById(Long Trainer_id) throws TrainerNotExistException {
         trainerRepository.findById(Trainer_id)
                 .orElseThrow(() -> new TrainerNotExistException("Trainer didn't Exist"));
 

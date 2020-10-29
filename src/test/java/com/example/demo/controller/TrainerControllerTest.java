@@ -144,12 +144,12 @@ class TrainerControllerTest {
 
             @Test
             public void should_delete_a_trainer() throws Exception {
-                doNothing().when(trainerService).deleteTrainer(1L);
+                doNothing().when(trainerService).deleteTrainerById(1L);
 
                 mockMvc.perform(delete("/trainers/{trainer_id}", 1))
                         .andExpect(status().isNoContent());
 
-                verify(trainerService, times(1)).deleteTrainer(1L);
+                verify(trainerService, times(1)).deleteTrainerById(1L);
             }
         }
 
@@ -158,14 +158,14 @@ class TrainerControllerTest {
 
             @Test
             public void should_response_404() throws Exception {
-                doThrow(new TrainerNotExistException("Trainer didn't Exist")).when(trainerService).deleteTrainer(1L);
+                doThrow(new TrainerNotExistException("Trainer didn't Exist")).when(trainerService).deleteTrainerById(1L);
 
                 mockMvc.perform(delete("/trainers/{trainer_id}", 1))
                         .andExpect(status().isNotFound())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$.message", containsString("Trainer didn't Exist")));
 
-                verify(trainerService, times(1)).deleteTrainer(1L);
+                verify(trainerService, times(1)).deleteTrainerById(1L);
             }
         }
     }
