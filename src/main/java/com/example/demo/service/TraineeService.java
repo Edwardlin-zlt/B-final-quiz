@@ -31,7 +31,7 @@ public class TraineeService {
         return traineeRepository.save(trainee);
     }
 
-    public void deleteTrainee(Long trainee_id) throws TraineeNotExistException {
+    public void deleteTraineeById(Long trainee_id) throws TraineeNotExistException {
         traineeRepository.findById(trainee_id)
                 .orElseThrow(() -> new TraineeNotExistException("Trainee didn't Exist"));
 

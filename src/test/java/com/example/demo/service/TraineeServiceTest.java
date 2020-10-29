@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Trainee;
+import com.example.demo.exception.TraineeNotExistException;
 import com.example.demo.repository.TraineeRepository;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TraineeServiceTest {
@@ -23,12 +27,12 @@ class TraineeServiceTest {
     @Mock
     private TraineeRepository traineeRepository;
 
-    private Trainee testTraineeUngrouped;
+    private Trainee testTrainee;
 
     @BeforeEach
     public void setupTest() {
         traineeService = new TraineeService(traineeRepository);
-        testTraineeUngrouped = Trainee.builder()
+        testTrainee = Trainee.builder()
                 .Id(1L)
                 .name("testUser-grouped")
                 .build();
@@ -73,14 +77,50 @@ class TraineeServiceTest {
         public void should_return_saved_trainee() {
             Trainee expectTrainee = Trainee.builder()
                     .Id(1L)
-                    .name(testTraineeUngrouped.getName())
+                    .name(testTrainee.getName())
                     .build();
-            when(traineeRepository.save(testTraineeUngrouped))
+            when(traineeRepository.save(testTrainee))
                     .thenReturn(expectTrainee);
 
-            Trainee newTrainee = traineeService.createNewTrainee(testTraineeUngrouped);
+            Trainee newTrainee = traineeService.createNewTrainee(testTrainee);
 
             assertThat(newTrainee).isEqualTo(expectTrainee);
         }
     }
+
+    @Nested
+    class DeleteTrainee {
+
+        @Nested
+        class WhenExist {
+            @Test
+            public void should_delete_trainee() throws TraineeNotExistException {
+                when(traineeRepository.findById(1L)).thenReturn(Optional.of(testTrainee));
+                doNothing().when(traineeRepository).deleteById(1L);
+
+                traineeService.deleteTraineeById(1L);
+
+                verify(traineeRepository, times(1)).deleteById(1L);
+            }
+        }
+
+        @Nested
+        class WhenNotExist {
+            @Test
+            public void should_Throw_TraineeNotExistException() {
+                when(traineeRepository.findById(1L)).thenReturn(Optional.empty());
+
+
+                TraineeNotExistException traineeNotExistException = assertThrows(TraineeNotExistException.class, () -> {
+                    traineeService.deleteTraineeById(1L);
+                });
+
+                AssertionsForClassTypes.assertThat(traineeNotExistException.getMessage()).isEqualTo("Trainee didn't Exist");
+                verify(traineeRepository, never()).deleteById(1L);
+            }
+        }
+
+    }
+
+
 }

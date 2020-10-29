@@ -28,12 +28,12 @@ public class TrainerServiceTest {
     @Mock
     private TrainerRepository trainerRepository;
 
-    private Trainer testTrainerUngrouped;
+    private Trainer testTrainer;
 
     @BeforeEach
     public void setupTest() {
         trainerService = new TrainerService(trainerRepository);
-        testTrainerUngrouped = Trainer.builder()
+        testTrainer = Trainer.builder()
                 .Id(1L)
                 .name("testUser-grouped")
                 .build();
@@ -79,12 +79,12 @@ public class TrainerServiceTest {
         public void should_return_saved_trainer() {
             Trainer expectTrainer = Trainer.builder()
                     .Id(1L)
-                    .name(testTrainerUngrouped.getName())
+                    .name(testTrainer.getName())
                     .build();
-            when(trainerRepository.save(testTrainerUngrouped))
+            when(trainerRepository.save(testTrainer))
                     .thenReturn(expectTrainer);
 
-            Trainer newTrainer = trainerService.createNewTrainer(testTrainerUngrouped);
+            Trainer newTrainer = trainerService.createNewTrainer(testTrainer);
 
             assertThat(newTrainer).isEqualTo(expectTrainer);
         }
@@ -97,7 +97,7 @@ public class TrainerServiceTest {
         class WhenExist {
             @Test
             public void should_delete_trainer() throws TrainerNotExistException {
-                when(trainerRepository.findById(1L)).thenReturn(Optional.of(testTrainerUngrouped));
+                when(trainerRepository.findById(1L)).thenReturn(Optional.of(testTrainer));
                 doNothing().when(trainerRepository).deleteById(1L);
 
                 trainerService.deleteTrainerById(1L);

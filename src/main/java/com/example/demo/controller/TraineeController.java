@@ -41,7 +41,7 @@ public class TraineeController {
     @DeleteMapping("/trainees/{trainee_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTrainee(@PathVariable("trainee_id") Long trainee_id) throws TraineeNotExistException {
-        traineeService.deleteTrainee(trainee_id);
+        traineeService.deleteTraineeById(trainee_id);
     }
 
 }
