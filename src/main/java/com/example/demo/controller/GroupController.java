@@ -18,12 +18,12 @@ public class GroupController {
         this.groupService = groupService;
     }
 
-    @GetMapping("/Groups")
+    @GetMapping("/groups")
     public List<Group> getGroups() {
         return groupService.getGroups();
     }
 
-    @GetMapping("/Groups/auto-grouping")
+    @GetMapping("/groups/auto-grouping")
     public List<Group> autoGrouping() {
         return groupService.autoGrouping();
     }
