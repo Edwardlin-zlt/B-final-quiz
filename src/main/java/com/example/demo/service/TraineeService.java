@@ -25,4 +25,8 @@ public class TraineeService {
     public List<Trainee> findAllTrainees() {
         return traineeRepository.findAll();
     }
+
+    public Trainee createNewTrainee(Trainee trainee) {
+        return traineeRepository.save(trainee);
+    }
 }

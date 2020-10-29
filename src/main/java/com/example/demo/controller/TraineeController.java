@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Trainee;
 import com.example.demo.service.TraineeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,12 @@ public class TraineeController {
             }
         }
         return traineeService.findAllTrainees();
+    }
+
+    @PostMapping("/trainees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Trainee createNewTrainee(@RequestBody @Valid Trainee trainee) {
+        return traineeService.createNewTrainee(trainee);
     }
 
 }
