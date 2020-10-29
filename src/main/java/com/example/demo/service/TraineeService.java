@@ -15,14 +15,14 @@ public class TraineeService {
     }
 
     public List<Trainee> findGroupedTrainees() {
-        return null;
+        return traineeRepository.findGroupedTrainees();
     }
 
     public List<Trainee> findUngroupedTrainees() {
-        return null;
+        return traineeRepository.findUngroupedTrainees();
     }
 
     public List<Trainee> findAllTrainees() {
-        return null;
+        return traineeRepository.findAll();
     }
 }
