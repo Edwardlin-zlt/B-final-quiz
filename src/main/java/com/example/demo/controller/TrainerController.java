@@ -37,6 +37,7 @@ public class TrainerController {
         return trainerService.createNewTrainer(trainer);
     }
 
+    //TODO GTB-完成度: - TrainerController.java:40 bug，无法正常调用
     @DeleteMapping("/trainers/{trainer_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTrainer(@PathVariable("trainer_id") Long trainer_id) throws TrainerNotExistException {

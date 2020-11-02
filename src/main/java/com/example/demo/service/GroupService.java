@@ -30,6 +30,7 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
+    //TODO GTB-工程实践: - GroupService.java:33 如果不确认，提交前删掉。不要提交无必要的注释
 //    @Transactional
     public List<Group> autoGrouping() {
         groupRepository.deleteAll();
@@ -52,6 +53,7 @@ public class GroupService {
 
     private List<Group> autoGenerateGroups() {
         List<Trainer> trainers = trainerRepository.findAll();
+        //TODO GTB-工程实践: - GroupService.java:56 Magic number 2
         int groupSize = trainers.size() / 2;
         List<Group> groups = new ArrayList<>();
         for (int i = 0; i < groupSize; i++) {

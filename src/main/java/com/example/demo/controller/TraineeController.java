@@ -38,6 +38,7 @@ public class TraineeController {
         return traineeService.createNewTrainee(trainee);
     }
 
+    //TODO GTB-完成度: - TraineeController.java:41 bug，无法正常调用
     @DeleteMapping("/trainees/{trainee_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTrainee(@PathVariable("trainee_id") Long trainee_id) throws TraineeNotExistException {

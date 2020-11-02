@@ -23,6 +23,8 @@ public class GroupController {
         return groupService.getGroups();
     }
 
+    //TODO GTB-完成度: - GroupController.java:26 bug，无法正常调用
+    //TODO GTB-知识点: - GroupController.java:27 按照restful实践，改变的资源，所以这里应该POST
     @GetMapping("/groups/auto-grouping")
     public List<Group> autoGrouping() {
         return groupService.autoGrouping();

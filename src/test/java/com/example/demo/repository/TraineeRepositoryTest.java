@@ -43,3 +43,5 @@
 //        assertThat(foundTrainees).isEqualTo(trainees);
 //    }
 //}
+
+//TODO GTB-工程实践: - TraineeRepositoryTest.java:47 不要提交注释代码，了解下@Disable
